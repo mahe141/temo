@@ -1,0 +1,100 @@
+@model IEnumerable<QATicket>
+
+@{
+    ViewBag.Title = "QA Status Manager";
+}
+
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f4f6f7;
+    }
+
+    .header-bar {
+        background-color: #1e2a38;
+        color: white;
+        border-radius: 0.5rem;
+        padding: 1rem 1.5rem;
+    }
+
+    .card-custom {
+        border-radius: 1rem;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+        transition: transform 0.2s;
+    }
+
+    .card-custom:hover {
+        transform: translateY(-3px);
+    }
+
+    .ticket-buttons .btn {
+        border-radius: 1rem;
+    }
+</style>
+
+<div class="container py-4">
+    <div class="header-bar d-flex justify-content-between align-items-center mb-4">
+        <div class="d-flex align-items-center gap-3">
+            <label class="form-label mb-0">Select QA User</label>
+            <select class="form-select w-auto">
+                <option>Venkatesh Chaganttai</option>
+                <option>Another QA</option>
+            </select>
+        </div>
+        <div class="d-flex gap-2">
+            <button class="btn btn-outline-light">Assign Ticket(s)</button>
+            <button class="btn btn-outline-light">Remove All Tickets</button>
+            <button class="btn btn-outline-light">Export Data</button>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <input type="text" class="form-control rounded-pill" placeholder="Search tickets...">
+    </div>
+
+    @foreach (var ticket in Model)
+    {
+        <div class="card card-custom mb-3">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <h5 class="mb-0">@ticket.TicketNumber - @ticket.Title</h5>
+                    <span class="badge
+                        @(ticket.Status == "Incomplete" ? "bg-danger" :
+                          ticket.Status == "In Progress" ? "bg-warning text-dark" :
+                          ticket.Status == "Complete" ? "bg-success" :
+                          "bg-secondary")">
+                        @ticket.Status
+                    </span>
+                </div>
+
+                <p class="mb-2"><strong>Notes:</strong> @ticket.Notes ?? "No notes yet."</p>
+
+                <div class="ticket-buttons d-flex flex-wrap gap-2">
+                    <button class="btn btn-outline-primary btn-sm">
+                        <i class="bi bi-plus-circle"></i> Add Note
+                    </button>
+                    <button class="btn btn-outline-info btn-sm">
+                        <i class="bi bi-chat-left-text"></i> Add Comment
+                    </button>
+                    <button class="btn btn-outline-secondary btn-sm">
+                        <i class="bi bi-bug"></i> Add Bug
+                    </button>
+                    <button class="btn btn-outline-success btn-sm">
+                        <i class="bi bi-check2-circle"></i> Update
+                    </button>
+                    <button class="btn btn-outline-danger btn-sm">
+                        <i class="bi bi-trash"></i> Delete
+                    </button>
+                    <button class="btn btn-outline-warning btn-sm">
+                        <i class="bi bi-arrow-left-right"></i> Reassign Ticket
+                    </button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<!-- Add this to your _Layout.cshtml -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
